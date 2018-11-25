@@ -27,6 +27,7 @@ public class BPlusTree {
 
     private LeafNode findLeafNode(Integer key, Node node,
                                   Deque<InnerNode> parents) {
+        Node foundNode = node;
         if (node instanceof LeafNode) {
             return (LeafNode) node;
         } else {
@@ -35,18 +36,68 @@ public class BPlusTree {
                 parents.push(innerNode);
             }
             // TODO: traverse inner nodes to find leaf node
-            return null;
+            System.out.println("findLeafNode Function!!");
+            Integer[] keys = innerNode.getKeys();
+            Node[] children = innerNode.getChildren();
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i] != null) {
+                    if (key < keys[i]){
+                        if (children[i].keys[i] != null) {
+                            System.out.println("key " + key + " is LESS than " + keys[i]);
+                            //parents.push((InnerNode) children[i]);
+                            findLeafNode(key, children[i], parents);
+                            foundNode = children[i];
+                        }
+                    } else {
+                        findLeafNode(key, children[i+1], parents);
+                        foundNode = children[i+1];
+                    }
+                }
+            }
         }
+        return (LeafNode) foundNode;
     }
 
     private String lookupInLeafNode(Integer key, LeafNode node) {
         // TODO: lookup value in leaf node
-        return null;
+        String value = null;
+        for (int i = 0; i < node.getValues().length; i++) {
+            if (node.keys[i] != null) {
+                if (key == node.keys[i]) {
+                    value = node.getValues()[i];
+                }
+            }
+        }
+        return value;
     }
 
     private void insertIntoLeafNode(Integer key, String value,
                                     LeafNode node, Deque<InnerNode> parents) {
         // TODO: insert value into leaf node (and propagate changes up)
+        LeafNode leafNode = findLeafNode(key, node);
+        if (node instanceof LeafNode) {
+            for (int i = 0; i < leafNode.getKeys().length; i++) {
+                String[] leafNodeValues = leafNode.getValues();
+                Integer[] leafNodeKeys = leafNode.getKeys();
+                if (leafNode.getKeys()[i] == null) { //to make sure there is space
+                    if (key > leafNode.getKeys()[i-1]){
+                        leafNodeValues[i] = value;
+                        leafNodeKeys[i] = key;
+                        break;
+                    } else {
+                        String tempVal;
+                        Integer tempKey;
+                        tempVal = leafNodeValues[i-1];
+                        tempKey = leafNodeKeys[i-1];
+                        leafNodeValues[i] = tempVal;
+                        leafNodeKeys[i] = tempKey;
+                        leafNodeValues[i-1] = value;
+                        leafNodeKeys[i-1] = key;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private String deleteFromLeafNode(Integer key, LeafNode node,
