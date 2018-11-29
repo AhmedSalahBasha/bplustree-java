@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="submitTest">
+    <output-path>$PROJECT_DIR$/out/artifacts/submitTest</output-path>
+    <root id="archive" name="submitTest.jar">
+      <element id="module-output" name="dbt-bplustree" />
+      <element id="dir-copy" path="$PROJECT_DIR$" />
+    </root>
+  </artifact>
+</component>

@@ -90,34 +90,34 @@ public class BPlusTreeTest {
                       newLeaf(keys(5, 6, 7), values("e", "f", "g")))))));
     }
 
-    ///// Deletion tests
-//
-//    @Test
-//    public void deleteFromLeaf() {
-//        // given
-//        tree = newTree(newLeaf(keys(1, 2, 3), values("a", "b", "c")));
-//        // when
-//        String value = tree.delete(2);
-//        // then
-//        assertThat(value, is("b"));
-//        assertThat(tree, isTree(
-//                newTree(newLeaf(keys(1, 3), values("a", "c")))));
-//    }
-//
-//    @Test
-//    public void deleteFromChild() {
-//        // given
-//        tree = newTree(newNode(
-//                keys(4), nodes(newLeaf(keys(1, 2, 3), values("a", "b", "c")),
-//                               newLeaf(keys(4, 5), values("d", "e")))));
-//        // when
-//        String value = tree.delete(1);
-//        // then
-//        assertThat(value, is("a"));
-//        assertThat(tree, isTree(newTree(newNode(
-//                keys(4), nodes(newLeaf(keys(2, 3), values("b", "c")),
-//                               newLeaf(keys(4, 5), values("d", "e")))))));
-//    }
+    //Deletion tests
+
+    @Test
+    public void deleteFromLeaf() {
+        // given
+        tree = newTree(newLeaf(keys(1, 2, 3), values("a", "b", "c")));
+        // when
+        String value = tree.delete(2);
+        // then
+        assertThat(value, is("b"));
+        assertThat(tree, isTree(
+                newTree(newLeaf(keys(1, 3), values("a", "c")))));
+    }
+
+    @Test
+    public void deleteFromChild() {
+        // given
+        tree = newTree(newNode(
+                keys(4), nodes(newLeaf(keys(1, 2, 3), values("a", "b", "c")),
+                               newLeaf(keys(4, 5), values("d", "e")))));
+        // when
+        String value = tree.delete(1);
+        // then
+        assertThat(value, is("a"));
+        assertThat(tree, isTree(newTree(newNode(
+                keys(4), nodes(newLeaf(keys(2, 3), values("b", "c")),
+                               newLeaf(keys(4, 5), values("d", "e")))))));
+    }
 //
 //    @Test
 //    public void deleteFromChildStealFromSibling() {
